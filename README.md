@@ -14,7 +14,7 @@ $$M_t(x, y) = (1 - t) * I_0(x, y) + t * I_1(x, y)$$
 
 When t equals 0, the morphed frame is exactly the Image I₀, when t equals 1, the morphed frame is exactly the Image I₁, and frame at t is the blending of two images at time t. This is called “cross-dissolve” in the film industry. Cross dissolve handles the photometric side of the problem, it balances out the coloration in the middle frames, but will inevitably leave the “ghosting” effects if the two faces aren’t perfectly aligned. 
 
-![alt text](image.png)
+![alt text](/Images/image.png)
 <p align="center">Left: Image I₀, Middle: Image I₁, Right: Cross-dissolve of two images</p>
 
 to align the shape in between the output, we need to make sure that the important features can be consistently matched throughout the frames. If the point pairs were given, we can then calculate the new location of corresponding points in each morphed frames to create the average warped shape.
@@ -42,7 +42,7 @@ Here we will utilize dlib to detect facial landmarks. Facial landmarks are used 
 
 The facial landmark detector will give us the estimated location of 68 (x, y) pair coordinates that represent salient regions of the face, including eye, eyebrows, nose, mouth, and jawline.
 
-![alt text](image-1.png)
+![alt text](/Images/image-1.png)
 
 <p align="center">68 points selection on Image 0 and Image 1 from dlib’s facial landmarks</p>
 
