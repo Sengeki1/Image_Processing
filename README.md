@@ -47,3 +47,5 @@ The facial landmark detector will give us the estimated location of 68 (x, y) pa
 <p align="center">68 points selection on Image 0 and Image 1 from dlib’s facial landmarks</p>
 
 In addition to the 68 facial feature points, we also need to select some points outside of the face to include the background into the morphing frames. To make sure the background is included, we need to select at least 4 points (4 corners), here we will use 8 points (4 corners + 4 center points from each edge) to make the transition more smooth.
+
+For more explanation <https://azmariewang.medium.com/face-morphing-a-step-by-step-tutorial-with-code-75a663cdc666>
