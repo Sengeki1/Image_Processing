@@ -25,9 +25,7 @@ def crop_faces(image1_path, image2_path):
 
         cropped_faces_list.append(cropped_faces)
     
-    return cropped_faces
-
-
+    return cropped_faces_list
 
 def generate_face_correspondeces(theImage1, theImage2):
     # Detect the points of face.
@@ -40,44 +38,55 @@ def generate_face_correspondeces(theImage1, theImage2):
     list2 = []
     j = 1
 
-    for img in imgList:
+    for m, img_list in enumerate(imgList):
+        for img in img_list:
+            size = (img.shape[0], img.shape[1])
+            if (j == 1):
+                currList = list1
+            else:
+                currList = list2
 
-        size = (img.shape[0], img.shape[1])
-        if (j == 1):
-            currList = list1
-        else:
-            currList = list2
+            # Ask the detector to find the bounding boxes of each face. The 1 in the
+            # second argument indicates that we should upsample the image 1 time. This
+            # will make everything bigger and allow us to detect more faces.
 
-        # Ask the detector to find the bounding boxes of each face. The 1 in the
-        # second argument indicates that we should upsample the image 1 time. This
-        # will make everything bigger and allow us to detect more faces.
+            dets = detector(img, 1)
 
-        dets = detector(img, 1)
+            try:
+                if len(dets) == 0:
+                    raise NoFaceFound 
+            except NoFaceFound:
+                print("Sorry, but I couldn't find a face in the image.")
 
-        try:
-            if len(dets) == 0:
-                raise NoFaceFound # type: ignore
-        except NoFaceFound: # type: ignore
-            print("Sorry, but I couldn't find a face in the image.")
+            j = j + 1
 
-        j = j + 1
+            for k, rect in enumerate(dets):
 
-        for k, rect in enumerate(dets):
+                # Get landmarks/part for the face in rect
+                shape = predictor(img, rect)
+                
+                for i in range(0, 68):
+                    x = shape.part(i).x
+                    y = shape.part(i).y
+                    currList.append((x, y))
+                    corresp[i][0] += x
+                    corresp[i][1] += y
+                    cv.circle(img, (x, y), 1, (0, 255, 0), 2)
 
-            # Get landmarks/part for the face in rect
-            shape = predictor(img, rect)
-            
-            for i in range(0, 68):
-                x = shape.part(i).x
-                y = shape.part(i).y
-                currList.append((x, y))
-                corresp[i][0] += x
-                corresp[i][1] += y
+                # Add back the background
+                currList.append((1,1))
+                currList.append((size[1]-1,1))
+                currList.append(((size[1]-1)//2,1))
+                currList.append((1,size[0]-1))
+                currList.append((1,(size[0]-1)//2))
+                currList.append(((size[1]-1)//2,size[0]-1))
+                currList.append((size[1]-1,size[0]-1))
+                currList.append(((size[1]-1)//2,(size[0]-1)//2))
+
+            cv.imwrite(f"test_{m}.png", img)
 
 
-
-
-img1 = 'Images/mulher1.jpg'
-img2 = 'Images/mulher2.jpeg'
+img1 = './Images/mulher1.jpg'
+img2 = './Images/homem.jpg'
 
 generate_face_correspondeces(img1, img2)
