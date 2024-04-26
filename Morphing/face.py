@@ -43,6 +43,7 @@ def generate_face_correspondeces(theImage1, theImage2):
     for m, img_list in enumerate(imgList):
         for img in img_list:
 
+            # currList is reseted once the image finish computing its landmark
             if (j == 1):
                 currList = list1
             else:
@@ -93,6 +94,8 @@ for i, image in enumerate(cropped_images):
     #triangulate(image, feature_points[i])
 
     img_shape.append((image.shape[1], image.shape[0]))
+
+# Transform
 
 src_pts = np.asarray(feature_points[1], dtype=np.float32)
 dst_pts = np.asarray(feature_points[0], dtype=np.float32)
