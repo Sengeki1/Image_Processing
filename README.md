@@ -1,5 +1,12 @@
 # Image_Processing
 
+Execute the following commands to install the required packages
+
+* ```pip install cmake```
+* ```pip install dlib```
+* ```pip install opencv-python```
+* ```pip install numpy```
+
 ## Morphing
 
 Technique of morphing between two clips together was extended from morphing two still images
